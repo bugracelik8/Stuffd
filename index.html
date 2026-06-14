@@ -7,12 +7,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
+    <!-- KİMLİK DOĞRULAMA -->
     <div id="authEkrani" class="auth-overlay">
         <div class="auth-card">
-            <h1 style="margin-bottom: 5px;">Stuffd <span class="beta-badge">BETA</span></h1>
+            <h1 style="margin-bottom: 5px; color: var(--folder-color);">Stuffd <span class="beta-badge">BETA</span></h1>
             
             <div id="girisFormu">
                 <p style="color: var(--text-muted); margin-bottom: 25px;">Kütüphanene hoş geldin.</p>
@@ -21,6 +22,12 @@
                     <input type="password" id="girisSifre" class="link-input" placeholder="Şifre">
                     <span class="toggle-password" id="toggleGirisSifre">Göster</span>
                 </div>
+                
+                <div style="text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="beniHatirla" checked style="accent-color: var(--folder-color); width: 16px; height: 16px;">
+                    <label for="beniHatirla" style="font-size: 13px; color: var(--text-muted); cursor: pointer;">Oturumu açık tut</label>
+                </div>
+
                 <button id="girisBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px;">Giriş Yap</button>
                 <p class="auth-link" id="gitKayitOl">Hesabın yok mu? <b>Kayıt Ol</b></p>
                 <p class="auth-link" id="gitSifreSifirla">Şifreni mi unuttun?</p>
@@ -37,36 +44,38 @@
                     <input type="password" id="kayitSifreTekrar" class="link-input" placeholder="Şifreyi Tekrar Girin">
                     <span class="toggle-password" id="toggleKayitSifreTekrar">Göster</span>
                 </div>
-                <button id="kayitBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px; background-color: #34c759;">Hesap Oluştur</button>
+                <button id="kayitBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px;">Hesap Oluştur</button>
                 <p class="auth-link" id="gitGirisYap">Zaten hesabın var mı? <b>Giriş Yap</b></p>
             </div>
 
             <div id="sifreFormu" style="display: none;">
                 <p style="color: var(--text-muted); margin-bottom: 25px;">Şifreni e-posta ile sıfırla.</p>
                 <input type="email" id="sifreSifirlaEmail" class="link-input" placeholder="Kayıtlı E-posta Adresi">
-                <button id="sifreSifirlaBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px; background-color: #ff9f0a;">Sıfırlama Linki Gönder</button>
+                <button id="sifreSifirlaBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px;">Sıfırlama Linki Gönder</button>
                 <p class="auth-link" id="gitGirisYap2">Giriş ekranına dön</p>
             </div>
             <p id="authMesaj" style="font-size: 14px; margin-top: 15px; display: none; padding: 10px; border-radius: 8px;"></p>
         </div>
     </div>
 
+    <!-- ANA UYGULAMA -->
     <div class="container" id="anaUygulama" style="display: none;">
         <header>
             <div>
-                <h1>Stuffd <span class="beta-badge">BETA</span></h1>
+                <h1 style="color: var(--folder-color);">Stuffd <span class="beta-badge" style="background-color: var(--text-color); color: var(--bg-color);">BETA</span></h1>
                 <p>Kütüphanem, notlarım ve analizlerim.</p>
             </div>
             <div class="header-buttons">
-                <button id="temaBtn" class="secondary-btn">☀️ Açık Mod</button>
-                <button id="yeniEkleBtn" class="primary-btn">+ Yeni Ekle</button>
-                <button id="cikisBtn" class="secondary-btn" style="background-color: #ff3b30; color: white;">Çıkış</button>
+                <button id="temaBtn" class="secondary-btn"><span class="ikon-tema custom-icon-small"></span> Tema Değiştir</button>
+                <button id="yeniEkleBtn" class="primary-btn">Yeni Ekle</button>
+                <button id="cikisBtn" class="secondary-btn" style="background-color: transparent; border: 1px solid var(--danger-color); color: var(--danger-color);">Çıkış</button>
             </div>
         </header>
         <div class="breadcrumb" id="breadcrumb"></div>
         <main id="kutuphaneGrid" class="grid-layout"></main>
     </div>
 
+    <!-- KLASÖR EKLEME PENCERESİ -->
     <div id="klasorModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatKlasorBtn">&times;</span>
@@ -76,7 +85,7 @@
             <div class="modal-body">
                 <input type="text" id="klasorAdInput" class="link-input" placeholder="Klasör adı girin...">
                 <div id="klasorResimAlani" style="display: none; margin-bottom: 15px;">
-                    <label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Kapak Fotoğrafı (Kare Kırpılacak)</label>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Kapak Fotoğrafı</label>
                     <input type="file" id="klasorResimInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;">
                 </div>
                 <button id="klasorOlusturBtn" class="primary-btn" style="width: 100%;">Oluştur</button>
@@ -84,6 +93,7 @@
         </div>
     </div>
 
+    <!-- KLASÖR DÜZENLEME PENCERESİ -->
     <div id="klasorDuzenleModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatDuzenleBtn">&times;</span>
@@ -93,24 +103,26 @@
             <div class="modal-body">
                 <input type="text" id="duzenleAdInput" class="link-input" placeholder="Yeni klasör adı...">
                 <div id="duzenleResimAlani" style="display: none; margin-bottom: 15px;">
-                    <label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Yeni Kapak Fotoğrafı (İsteğe Bağlı)</label>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Yeni Kapak Fotoğrafı</label>
                     <input type="file" id="duzenleResimInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;">
                 </div>
-                <button id="klasorGuncelleBtn" class="primary-btn" style="width: 100%; background-color: #ff9f0a;">Değişiklikleri Kaydet</button>
+                <button id="klasorGuncelleBtn" class="primary-btn" style="width: 100%;">Değişiklikleri Kaydet</button>
             </div>
         </div>
     </div>
 
+    <!-- KESME (CROPPER) PENCERESİ -->
     <div id="cropperModal" class="modal" style="z-index: 1000;">
         <div class="modal-content" style="max-width: 500px;">
             <h2 class="title" style="margin-bottom: 15px;">Fotoğrafı Kırp</h2>
             <div style="width: 100%; max-height: 400px; overflow: hidden; margin-bottom: 15px;">
                 <img id="cropperImage" style="max-width: 100%;">
             </div>
-            <button id="cropUygulaBtn" class="primary-btn" style="width: 100%; background-color: #34c759;">Kes ve Onayla</button>
+            <button id="cropUygulaBtn" class="primary-btn" style="width: 100%;">Kes ve Onayla</button>
         </div>
     </div>
 
+    <!-- YENİ İÇERİK PENCERESİ -->
     <div id="yeniIcerikModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatYeniBtn">&times;</span>
@@ -121,9 +133,9 @@
                 <input type="text" id="yeniBaslik" class="link-input" placeholder="Başlık (Örn: Senaryo Dosyası)">
                 <div class="segment-control">
                     <input type="radio" id="turNot" name="icerikTuru" value="not" checked>
-                    <label for="turNot">📝 Yazılı Not</label>
+                    <label for="turNot">Yazılı Not</label>
                     <input type="radio" id="turPdf" name="icerikTuru" value="pdf">
-                    <label for="turPdf">📄 PDF Yükle</label>
+                    <label for="turPdf">PDF Yükle</label>
                 </div>
                 <div id="yaziliNotAlani">
                     <textarea id="yeniNot" placeholder="Notlarını buraya yaz..."></textarea>
@@ -138,6 +150,7 @@
         </div>
     </div>
 
+    <!-- DETAY PENCERESİ -->
     <div id="detayModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatDetayBtn">&times;</span>
@@ -146,7 +159,7 @@
                 <h2 id="modalBaslik" class="title" style="font-size: 24px;">Başlık</h2>
             </div>
             <div class="modal-body">
-                <button id="pdfAcBtn" class="primary-btn" style="display: none; width: 100%; margin-bottom: 20px; background-color: #ff9f0a;">📖 PDF'i Kitap Modunda Oku</button>
+                <button id="pdfAcBtn" class="primary-btn" style="display: none; width: 100%; margin-bottom: 20px;">PDF'i Kitap Modunda Oku</button>
                 <h3 id="notBasligi">Notlarım</h3>
                 <textarea id="modalNotlar" placeholder="Aklında kalanlar..."></textarea>
                 <button id="kaydetBtn" class="primary-btn" style="width: 100%;">Değişiklikleri Kaydet</button>
@@ -154,23 +167,24 @@
         </div>
     </div>
 
+    <!-- TAM EKRAN KİTAP (FLIPBOOK) PENCERESİ -->
     <div id="pdfKitapModal" class="modal" style="z-index: 1000; background: var(--bg-color);">
         <div class="modal-content" style="width: 100%; height: 100%; max-width: 100%; border-radius: 0; padding: 0; display: flex; flex-direction: column;">
-            <div style="background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
-                <button id="pdfKitapKapatBtn" class="secondary-btn" style="background-color: var(--danger-color); color: white;">Kapat</button>
+            <div id="pdfHeaderArea" style="background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
+                <button id="pdfKitapKapatBtn" class="secondary-btn" style="background-color: transparent; border: 1px solid var(--danger-color); color: var(--danger-color);">Kapat</button>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <button id="pdfGeriBtn" class="secondary-btn">◀ Önceki</button>
+                    <button id="pdfGeriBtn" class="secondary-btn">Önceki</button>
                     <span id="pdfSayfaBilgi" style="font-weight: bold; color: var(--text-color);">Sayfa --</span>
-                    <button id="pdfIleriBtn" class="secondary-btn">Sonraki ▶</button>
+                    <button id="pdfIleriBtn" class="secondary-btn">Sonraki</button>
                 </div>
             </div>
-            <div id="pdfRenderAlani" style="flex: 1; display: flex; justify-content: center; align-items: center; background-color: #2c2c2e; overflow: auto; padding: 20px; gap: 2px;">
-                <canvas id="pdfCanvasSol" style="box-shadow: 0 0 15px rgba(0,0,0,0.5);"></canvas>
-                <canvas id="pdfCanvasSag" style="box-shadow: 0 0 15px rgba(0,0,0,0.5); display: none;"></canvas>
+            <div id="pdfRenderAlani" style="flex: 1; display: flex; justify-content: center; align-items: center; background-color: var(--bg-color); overflow: hidden; padding: 20px; gap: 4px;">
+                <canvas id="pdfCanvasSol" style="box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 4px;"></canvas>
+                <canvas id="pdfCanvasSag" style="box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 4px; display: none;"></canvas>
             </div>
         </div>
     </div>
 
-    <script type="module" src="app.js?v=8"></script>
+    <script type="module" src="app.js?v=10"></script>
 </body>
 </html>
