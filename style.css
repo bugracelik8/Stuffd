@@ -1,5 +1,4 @@
 :root {
-    /* ANA RENKLER: LACİVERT VE TURUNCU (DARK MODE DEFAULT) */
     --bg-color: #0B132B; 
     --card-bg: #1C2541; 
     --text-color: #F5F5F7; 
@@ -53,52 +52,16 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px var(--card-hover-shadow); border-color: var(--folder-color);}
 
+/* GERİ GELEN KOCAMAN KLASÖR EMOJİLERİ */
+.folder-icon { font-size: 48px; margin-bottom: 12px; position: relative; z-index: 2; }
 
-/* ==========================================================================
-   ÖZEL İKON ALANLARI (TASARIMLARINI BURAYA EKLEYECEKSİN)
-   ========================================================================== */
-
-/* 1. Klasör İkonu (Büyük) */
-.icon-folder { 
-    width: 64px; 
-    height: 64px; 
-    margin-bottom: 12px; 
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    position: relative; 
-    z-index: 2; 
-    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: klasor.png) */
-    background-image: url('klasor-ikonun.png'); 
-}
-
-/* 2. Düzenle (Kalem) İkonu */
-.duzenle-btn { 
-    position: absolute; top: 12px; right: 48px; z-index: 10; 
-    background-color: var(--tag-bg); border: none; border-radius: 50%; 
-    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; 
-    cursor: pointer; opacity: 0; transition: 0.2s; padding: 0;
-    background-size: 18px; background-repeat: no-repeat; background-position: center;
-    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: kalem.png) */
-    background-image: url('kalem-ikonun.png'); 
-}
-
-/* 3. Tema Değiştirme İkonu (Buton İçi Küçük İkon) */
-.ikon-tema {
-    display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;
-    background-size: contain; background-repeat: no-repeat;
-    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: kristal.png) */
-    background-image: url('tema-ikonun.png');
-}
-
-/* Kapat/Sil İkonu Standart (X İşareti) */
+/* Kapat ve Düzenle İkonları (Emojili Format) */
 .sil-btn { position: absolute; top: 12px; right: 12px; z-index: 10; background-color: transparent; color: var(--danger-color); border: 1px solid var(--danger-color); border-radius: 50%; width: 32px; height: 32px; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
+.duzenle-btn { position: absolute; top: 12px; right: 52px; z-index: 10; background-color: var(--tag-bg); color: var(--text-color); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
+
 .card:hover .sil-btn, .card:hover .duzenle-btn { opacity: 1; } 
 .sil-btn:hover { background-color: var(--danger-color); color: white; transform: scale(1.1); }
-.duzenle-btn:hover { transform: scale(1.1); background-color: var(--folder-color); }
-
-/* ========================================================================== */
-
+.duzenle-btn:hover { transform: scale(1.1); background-color: var(--folder-color); color: var(--bg-color); }
 
 .tag { position: absolute; top: 12px; left: 12px; background-color: var(--tag-bg); padding: 4px 10px; border-radius: 12px; font-size: 12px; z-index: 2; font-weight: bold; color: var(--text-color);}
 .title { font-size: 18px; font-weight: 600; margin: 0; position: relative; z-index: 2; width: 100%; word-wrap: break-word;}
