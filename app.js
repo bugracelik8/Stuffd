@@ -78,8 +78,8 @@ function ekranıGuncelle() {
         kategoriler.forEach(kat => {
             const card = document.createElement('div'); card.className = 'card';
             card.innerHTML = `<button class="sil-btn" onclick="silKategori(event, ${kat.id})">&times;</button>
-                              <button class="duzenle-btn" onclick="duzenleKategori(event, ${kat.id}, 'ana')"></button>
-                              <div class="icon-folder"></div><h2 class="title">${kat.ad}</h2>`;
+                              <button class="duzenle-btn" onclick="duzenleKategori(event, ${kat.id}, 'ana')">✏️</button>
+                              <div class="folder-icon">📁</div><h2 class="title">${kat.ad}</h2>`;
             card.onclick = () => { aktifKat = kat; ekranıGuncelle(); }; grid.appendChild(card);
         });
     } else if (!aktifAltKat) {
@@ -89,12 +89,12 @@ function ekranıGuncelle() {
                 card.style.backgroundImage = `linear-gradient(to bottom, rgba(11, 19, 43, 0.4), rgba(11, 19, 43, 0.9)), url('${altKat.imgUrl}')`;
                 card.style.backgroundSize = 'cover'; card.style.backgroundPosition = 'center'; card.style.color = 'white';
                 card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button>
-                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')"></button>
+                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')">✏️</button>
                                   <h2 class="title" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${altKat.ad}</h2>`;
             } else { 
                 card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button>
-                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')"></button>
-                                  <div class="icon-folder"></div><h2 class="title">${altKat.ad}</h2>`; 
+                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')">✏️</button>
+                                  <div class="folder-icon">📂</div><h2 class="title">${altKat.ad}</h2>`; 
             }
             card.onclick = () => { aktifAltKat = altKat; ekranıGuncelle(); }; grid.appendChild(card);
         });
@@ -262,6 +262,18 @@ document.getElementById('gitGirisYap').onclick = () => { document.getElementById
 document.getElementById('gitSifreSifirla').onclick = () => { document.getElementById('girisFormu').style.display = 'none'; document.getElementById('sifreFormu').style.display = 'block'; };
 document.getElementById('gitGirisYap2').onclick = () => { document.getElementById('sifreFormu').style.display = 'none'; document.getElementById('girisFormu').style.display = 'block'; };
 
+// TEMA BUTONU MANTIĞI EMOJİLERLE GÜNCELLENDİ
 const temaBtn = document.getElementById('temaBtn');
-temaBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); localStorage.setItem('kutuphaneTema', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
-if (localStorage.getItem('kutuphaneTema') === 'light') document.body.classList.add('light-mode');
+temaBtn.addEventListener('click', () => { 
+    document.body.classList.toggle('light-mode'); 
+    const isLight = document.body.classList.contains('light-mode');
+    localStorage.setItem('kutuphaneTema', isLight ? 'light' : 'dark'); 
+    temaBtn.innerText = isLight ? "🌙 Koyu Mod" : "☀️ Açık Mod";
+});
+
+if (localStorage.getItem('kutuphaneTema') === 'light') {
+    document.body.classList.add('light-mode');
+    temaBtn.innerText = "🌙 Koyu Mod";
+} else {
+    temaBtn.innerText = "☀️ Açık Mod";
+}
