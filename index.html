@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stuffd</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
-    <!-- KİMLİK DOĞRULAMA -->
     <div id="authEkrani" class="auth-overlay">
         <div class="auth-card">
             <h1 style="margin-bottom: 5px; color: var(--folder-color);">Stuffd <span class="beta-badge">BETA</span></h1>
@@ -58,7 +59,6 @@
         </div>
     </div>
 
-    <!-- ANA UYGULAMA -->
     <div class="container" id="anaUygulama" style="display: none;">
         <header>
             <div>
@@ -66,7 +66,7 @@
                 <p>Kütüphanem, notlarım ve analizlerim.</p>
             </div>
             <div class="header-buttons">
-                <button id="temaBtn" class="secondary-btn"><span class="ikon-tema custom-icon-small"></span> Tema Değiştir</button>
+                <button id="temaBtn" class="secondary-btn">☀️ Açık Mod</button>
                 <button id="yeniEkleBtn" class="primary-btn">Yeni Ekle</button>
                 <button id="cikisBtn" class="secondary-btn" style="background-color: transparent; border: 1px solid var(--danger-color); color: var(--danger-color);">Çıkış</button>
             </div>
@@ -75,7 +75,6 @@
         <main id="kutuphaneGrid" class="grid-layout"></main>
     </div>
 
-    <!-- KLASÖR EKLEME PENCERESİ -->
     <div id="klasorModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatKlasorBtn">&times;</span>
@@ -93,7 +92,6 @@
         </div>
     </div>
 
-    <!-- KLASÖR DÜZENLEME PENCERESİ -->
     <div id="klasorDuzenleModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatDuzenleBtn">&times;</span>
@@ -111,7 +109,6 @@
         </div>
     </div>
 
-    <!-- KESME (CROPPER) PENCERESİ -->
     <div id="cropperModal" class="modal" style="z-index: 1000;">
         <div class="modal-content" style="max-width: 500px;">
             <h2 class="title" style="margin-bottom: 15px;">Fotoğrafı Kırp</h2>
@@ -122,7 +119,6 @@
         </div>
     </div>
 
-    <!-- YENİ İÇERİK PENCERESİ -->
     <div id="yeniIcerikModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatYeniBtn">&times;</span>
@@ -150,7 +146,6 @@
         </div>
     </div>
 
-    <!-- DETAY PENCERESİ -->
     <div id="detayModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatDetayBtn">&times;</span>
@@ -167,7 +162,6 @@
         </div>
     </div>
 
-    <!-- TAM EKRAN KİTAP (FLIPBOOK) PENCERESİ -->
     <div id="pdfKitapModal" class="modal" style="z-index: 1000; background: var(--bg-color);">
         <div class="modal-content" style="width: 100%; height: 100%; max-width: 100%; border-radius: 0; padding: 0; display: flex; flex-direction: column;">
             <div id="pdfHeaderArea" style="background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
@@ -185,6 +179,6 @@
         </div>
     </div>
 
-    <script type="module" src="app.js?v=10"></script>
+    <script type="module" src="app.js?v=11"></script>
 </body>
 </html>
