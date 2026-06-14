@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCK3hB5I7XP4EETba2PjqChBeQR1rbbGdU",
@@ -17,7 +17,6 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// PDF.js Tanımlamaları
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
@@ -25,7 +24,6 @@ let currentUser = null;
 let kategoriler = []; let altKategoriler = []; let icerikler = [];
 let aktifKat = null; let aktifAltKat = null; let acikIcerikId = null;
 
-// Auth İşlemleri
 const authEkrani = document.getElementById('authEkrani'); const anaUygulama = document.getElementById('anaUygulama');
 function mesajGoster(metin, tur) { const authMesaj = document.getElementById('authMesaj'); authMesaj.innerText = metin; authMesaj.className = tur === 'hata' ? 'mesaj-hata' : 'mesaj-basari'; authMesaj.style.display = 'block'; }
 function toggleSifre(inputIds, toggleId) {
@@ -68,7 +66,9 @@ function ekranıGuncelle() {
     if (!aktifKat) {
         kategoriler.forEach(kat => {
             const card = document.createElement('div'); card.className = 'card';
-            card.innerHTML = `<button class="sil-btn" onclick="silKategori(event, ${kat.id})">&times;</button><div class="folder-icon">📁</div><h2 class="title">${kat.ad}</h2>`;
+            card.innerHTML = `<button class="sil-btn" onclick="silKategori(event, ${kat.id})">&times;</button>
+                              <button class="duzenle-btn" onclick="duzenleKategori(event, ${kat.id}, 'ana')">✏️</button>
+                              <div class="folder-icon">📁</div><h2 class="title">${kat.ad}</h2>`;
             card.onclick = () => { aktifKat = kat; ekranıGuncelle(); }; grid.appendChild(card);
         });
     } else if (!aktifAltKat) {
@@ -77,8 +77,14 @@ function ekranıGuncelle() {
             if (altKat.imgUrl) {
                 card.style.backgroundImage = `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('${altKat.imgUrl}')`;
                 card.style.backgroundSize = 'cover'; card.style.backgroundPosition = 'center'; card.style.color = 'white';
-                card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button><h2 class="title" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${altKat.ad}</h2>`;
-            } else { card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button><div class="folder-icon">📂</div><h2 class="title">${altKat.ad}</h2>`; }
+                card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button>
+                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')">✏️</button>
+                                  <h2 class="title" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${altKat.ad}</h2>`;
+            } else { 
+                card.innerHTML = `<button class="sil-btn" onclick="silAltKategori(event, ${altKat.id})">&times;</button>
+                                  <button class="duzenle-btn" onclick="duzenleKategori(event, ${altKat.id}, 'alt')">✏️</button>
+                                  <div class="folder-icon">📂</div><h2 class="title">${altKat.ad}</h2>`; 
+            }
             card.onclick = () => { aktifAltKat = altKat; ekranıGuncelle(); }; grid.appendChild(card);
         });
     } else {
@@ -92,13 +98,13 @@ function ekranıGuncelle() {
 
 window.gitAnaSayfa = () => { aktifKat = null; aktifAltKat = null; ekranıGuncelle(); };
 window.gitKategori = () => { aktifAltKat = null; ekranıGuncelle(); };
-window.silKategori = (e, id) => { e.stopPropagation(); kategoriler = kategoriler.filter(k => k.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); };
-window.silAltKategori = (e, id) => { e.stopPropagation(); altKategoriler = altKategoriler.filter(ak => ak.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); };
-window.silIcerik = (e, id) => { e.stopPropagation(); icerikler = icerikler.filter(ic => ic.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); };
+window.silKategori = (e, id) => { e.stopPropagation(); if(confirm("Klasör silinsin mi?")) { kategoriler = kategoriler.filter(k => k.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); } };
+window.silAltKategori = (e, id) => { e.stopPropagation(); if(confirm("Alt klasör silinsin mi?")) { altKategoriler = altKategoriler.filter(ak => ak.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); } };
+window.silIcerik = (e, id) => { e.stopPropagation(); if(confirm("İçerik silinsin mi?")) { icerikler = icerikler.filter(ic => ic.id !== id); verileriBulutaKaydet(); ekranıGuncelle(); } };
 
-// FOTOĞRAF KESME (CROPPER) MANTIĞI
+// CROPPER (FOTOĞRAF KESME) MANTIĞI
 let resimBlob = null; let cropper = null;
-document.getElementById('klasorResimInput').addEventListener('change', (e) => {
+function resimSecmeIslemi(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
@@ -110,17 +116,20 @@ document.getElementById('klasorResimInput').addEventListener('change', (e) => {
         };
         reader.readAsDataURL(file);
     }
-});
+}
+document.getElementById('klasorResimInput').addEventListener('change', resimSecmeIslemi);
+document.getElementById('duzenleResimInput').addEventListener('change', resimSecmeIslemi);
 
 document.getElementById('cropUygulaBtn').addEventListener('click', () => {
     cropper.getCroppedCanvas({width: 600, height: 600}).toBlob((blob) => { resimBlob = blob; document.getElementById('cropperModal').style.display = 'none'; }, 'image/jpeg', 0.8);
 });
 
+// KLASÖR OLUŞTURMA
 document.getElementById('yeniEkleBtn').addEventListener('click', () => {
     if (!aktifKat || !aktifAltKat) {
         document.getElementById('klasorModalBaslik').innerText = !aktifKat ? "Yeni Ana Klasör" : "Yeni Alt Klasör";
         document.getElementById('klasorResimAlani').style.display = (!aktifKat) ? 'none' : 'block';
-        resimBlob = null; document.getElementById('klasorResimInput').value = '';
+        resimBlob = null; document.getElementById('klasorResimInput').value = ''; document.getElementById('klasorAdInput').value = '';
         document.getElementById('klasorModal').style.display = 'flex';
     } else { document.getElementById('yeniIcerikModal').style.display = 'flex'; }
 });
@@ -128,7 +137,6 @@ document.getElementById('yeniEkleBtn').addEventListener('click', () => {
 document.getElementById('klasorOlusturBtn').addEventListener('click', async () => {
     const ad = document.getElementById('klasorAdInput').value.trim(); if(!ad) return;
     const btn = document.getElementById('klasorOlusturBtn');
-    
     if (!aktifKat) { kategoriler.push({ id: Date.now(), ad }); verileriBulutaKaydet(); document.getElementById('klasorModal').style.display = 'none'; ekranıGuncelle(); } 
     else if (!aktifAltKat) { 
         let imgUrl = null;
@@ -142,11 +150,48 @@ document.getElementById('klasorOlusturBtn').addEventListener('click', async () =
     }
 });
 
-document.querySelectorAll('input[name="icerikTuru"]').forEach(btn => {
-    btn.addEventListener('change', (e) => { document.getElementById('yaziliNotAlani').style.display = e.target.value === 'not' ? 'block' : 'none'; document.getElementById('pdfYuklemeAlani').style.display = e.target.value === 'not' ? 'none' : 'block'; });
+// YENİ: KLASÖR DÜZENLEME MANTIĞI
+let duzenlenenId = null; let duzenlenenTur = null;
+window.duzenleKategori = (e, id, tur) => {
+    e.stopPropagation(); duzenlenenId = id; duzenlenenTur = tur; resimBlob = null;
+    document.getElementById('duzenleResimInput').value = '';
+    
+    if (tur === 'ana') {
+        const kat = kategoriler.find(k => k.id === id);
+        document.getElementById('duzenleAdInput').value = kat.ad;
+        document.getElementById('duzenleResimAlani').style.display = 'none';
+    } else {
+        const altKat = altKategoriler.find(ak => ak.id === id);
+        document.getElementById('duzenleAdInput').value = altKat.ad;
+        document.getElementById('duzenleResimAlani').style.display = 'block';
+    }
+    document.getElementById('klasorDuzenleModal').style.display = 'flex';
+};
+
+document.getElementById('klasorGuncelleBtn').addEventListener('click', async () => {
+    const yeniAd = document.getElementById('duzenleAdInput').value.trim(); if (!yeniAd) return;
+    const btn = document.getElementById('klasorGuncelleBtn');
+
+    if (duzenlenenTur === 'ana') {
+        const kat = kategoriler.find(k => k.id === duzenlenenId); if(kat) kat.ad = yeniAd;
+    } else {
+        const altKat = altKategoriler.find(ak => ak.id === duzenlenenId);
+        if(altKat) {
+            altKat.ad = yeniAd;
+            if (resimBlob) {
+                btn.innerText = "Yükleniyor..."; btn.disabled = true;
+                const yol = ref(storage, `users/${currentUser.uid}/folders/${Date.now()}_guncel.jpg`);
+                await uploadBytes(yol, resimBlob); altKat.imgUrl = await getDownloadURL(yol);
+                btn.innerText = "Değişiklikleri Kaydet"; btn.disabled = false;
+            }
+        }
+    }
+    verileriBulutaKaydet(); document.getElementById('klasorDuzenleModal').style.display = 'none'; ekranıGuncelle();
 });
 
-// PDF BULUTA YÜKLEME
+// İÇERİK OLUŞTURMA VE OKUMA
+document.querySelectorAll('input[name="icerikTuru"]').forEach(btn => { btn.addEventListener('change', (e) => { document.getElementById('yaziliNotAlani').style.display = e.target.value === 'not' ? 'block' : 'none'; document.getElementById('pdfYuklemeAlani').style.display = e.target.value === 'not' ? 'none' : 'block'; }); });
+
 document.getElementById('olusturBtn').addEventListener('click', async () => {
     const baslik = document.getElementById('yeniBaslik').value; const tur = document.querySelector('input[name="icerikTuru"]:checked').value; if(!baslik) return;
     const btn = document.getElementById('olusturBtn'); const icerikId = Date.now(); 
@@ -157,14 +202,12 @@ document.getElementById('olusturBtn').addEventListener('click', async () => {
         const file = document.getElementById('yeniPdfDosya').files[0]; if(!file) { alert("Lütfen PDF seçin."); return; }
         btn.innerText = "Buluta Yükleniyor (Bekleyin)..."; btn.disabled = true;
         const yol = ref(storage, `users/${currentUser.uid}/pdfs/${icerikId}_${file.name}`);
-        await uploadBytes(yol, file);
-        yeni.pdfUrl = await getDownloadURL(yol);
+        await uploadBytes(yol, file); yeni.pdfUrl = await getDownloadURL(yol);
         btn.innerText = "Buluta Yükle ve Oluştur"; btn.disabled = false;
     }
     icerikler.push(yeni); verileriBulutaKaydet(); document.getElementById('yeniIcerikModal').style.display = 'none'; ekranıGuncelle();
 });
 
-// KİTAP GİBİ PDF OKUYUCU (FLIPBOOK MANTIĞI)
 let pdfDoc = null; let sayfaNo = 1; let okunanPdfUrl = null;
 const canvasSol = document.getElementById('pdfCanvasSol'); const ctxSol = canvasSol.getContext('2d');
 const canvasSag = document.getElementById('pdfCanvasSag'); const ctxSag = canvasSag.getContext('2d');
@@ -172,43 +215,24 @@ const canvasSag = document.getElementById('pdfCanvasSag'); const ctxSag = canvas
 function detaylariAc(icerik) {
     acikIcerikId = icerik.id; document.getElementById('modalBaslik').innerText = icerik.baslik; document.getElementById('modalNotlar').value = icerik.notlar || "";
     const pdfAcBtn = document.getElementById('pdfAcBtn');
-    if (icerik.tur === 'pdf') { pdfAcBtn.style.display = 'block'; okunanPdfUrl = icerik.pdfUrl; } 
-    else { pdfAcBtn.style.display = 'none'; okunanPdfUrl = null; }
+    if (icerik.tur === 'pdf') { pdfAcBtn.style.display = 'block'; okunanPdfUrl = icerik.pdfUrl; } else { pdfAcBtn.style.display = 'none'; okunanPdfUrl = null; }
     document.getElementById('detayModal').style.display = 'flex';
 }
 
 document.getElementById('pdfAcBtn').addEventListener('click', () => {
-    document.getElementById('pdfKitapModal').style.display = 'flex';
-    document.getElementById('pdfSayfaBilgi').innerText = "Yükleniyor...";
-    pdfjsLib.getDocument(okunanPdfUrl).promise.then(pdf => { pdfDoc = pdf; sayfaNo = 1; pdfSayfalariCiz(); }).catch(err => {
-        alert("PDF yüklenemedi. (Firebase CORS ayarı gerekebilir)"); console.error(err);
-    });
+    document.getElementById('pdfKitapModal').style.display = 'flex'; document.getElementById('pdfSayfaBilgi').innerText = "Yükleniyor...";
+    pdfjsLib.getDocument(okunanPdfUrl).promise.then(pdf => { pdfDoc = pdf; sayfaNo = 1; pdfSayfalariCiz(); }).catch(err => { alert("PDF yüklenemedi."); console.error(err); });
 });
 
 function pdfSayfalariCiz() {
     if(!pdfDoc) return;
-    const genisEkran = window.innerWidth > 768; // Bilgisayar ekranıysa iki sayfa (Kitap), telefonsa tek sayfa
-    
-    // Sol Sayfa
-    pdfDoc.getPage(sayfaNo).then(page => {
-        const viewport = page.getViewport({ scale: 1.5 });
-        canvasSol.height = viewport.height; canvasSol.width = viewport.width;
-        page.render({ canvasContext: ctxSol, viewport: viewport });
-    });
-
-    // Sağ Sayfa (Eğer ekran genişse ve sonraki sayfa varsa)
+    const genisEkran = window.innerWidth > 768;
+    pdfDoc.getPage(sayfaNo).then(page => { const viewport = page.getViewport({ scale: 1.5 }); canvasSol.height = viewport.height; canvasSol.width = viewport.width; page.render({ canvasContext: ctxSol, viewport: viewport }); });
     if (genisEkran && sayfaNo + 1 <= pdfDoc.numPages) {
         canvasSag.style.display = 'block';
-        pdfDoc.getPage(sayfaNo + 1).then(page => {
-            const viewport = page.getViewport({ scale: 1.5 });
-            canvasSag.height = viewport.height; canvasSag.width = viewport.width;
-            page.render({ canvasContext: ctxSag, viewport: viewport });
-        });
+        pdfDoc.getPage(sayfaNo + 1).then(page => { const viewport = page.getViewport({ scale: 1.5 }); canvasSag.height = viewport.height; canvasSag.width = viewport.width; page.render({ canvasContext: ctxSag, viewport: viewport }); });
         document.getElementById('pdfSayfaBilgi').innerText = `Sayfa ${sayfaNo} - ${sayfaNo + 1} / ${pdfDoc.numPages}`;
-    } else {
-        canvasSag.style.display = 'none';
-        document.getElementById('pdfSayfaBilgi').innerText = `Sayfa ${sayfaNo} / ${pdfDoc.numPages}`;
-    }
+    } else { canvasSag.style.display = 'none'; document.getElementById('pdfSayfaBilgi').innerText = `Sayfa ${sayfaNo} / ${pdfDoc.numPages}`; }
 }
 
 document.getElementById('pdfIleriBtn').addEventListener('click', () => { const adim = window.innerWidth > 768 ? 2 : 1; if (sayfaNo + adim <= pdfDoc.numPages) { sayfaNo += adim; pdfSayfalariCiz(); } });
@@ -216,7 +240,7 @@ document.getElementById('pdfGeriBtn').addEventListener('click', () => { const ad
 document.getElementById('pdfKitapKapatBtn').addEventListener('click', () => document.getElementById('pdfKitapModal').style.display = 'none');
 document.getElementById('kaydetBtn').addEventListener('click', () => { const ic = icerikler.find(i => i.id === acikIcerikId); if(ic) { ic.notlar = document.getElementById('modalNotlar').value; verileriBulutaKaydet(); document.getElementById('detayModal').style.display = 'none'; } });
 
-['kapatDetayBtn', 'kapatYeniBtn', 'kapatKlasorBtn'].forEach(id => { document.getElementById(id).addEventListener('click', (e) => e.target.closest('.modal').style.display = 'none'); });
+['kapatDetayBtn', 'kapatYeniBtn', 'kapatKlasorBtn', 'kapatDuzenleBtn'].forEach(id => { document.getElementById(id).addEventListener('click', (e) => e.target.closest('.modal').style.display = 'none'); });
 
 const temaBtn = document.getElementById('temaBtn');
 temaBtn.addEventListener('click', () => {
