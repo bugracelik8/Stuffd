@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stuffd</title>
-    <link rel="icon" href="logo.png" type="image/png">
     
+    <!-- EN GÜÇLÜ FAVICON KODLARI (Safari'nin inadını kırmak için özel tasarlandı) -->
+    <link rel="shortcut icon" href="logo.png?v=3" type="image/png">
+    <link rel="icon" href="logo.png?v=3" type="image/png">
+    <link rel="apple-touch-icon" href="logo.png?v=3">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=11">
+    
+    <!-- CSS DOSYASI BAĞLANTISI -->
+    <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
+    <!-- KİMLİK DOĞRULAMA EKRANI -->
     <div id="authEkrani" class="auth-overlay">
         <div class="auth-card">
-            <h1 style="margin-bottom: 5px; color: var(--folder-color);">Stuffd <span class="beta-badge">BETA</span></h1>
+            <!-- GİRİŞ EKRANI LOGOSU VE BAŞLIĞI -->
+            <h1 style="color: var(--folder-color); display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px;">
+                <img src="logo.png?v=3" alt="Stuffd Logo" style="width: 32px; height: 32px; object-fit: contain; shape-rendering: crispEdges;">
+                Stuffd <span class="beta-badge" style="background-color: var(--text-color); color: var(--bg-color);">BETA</span>
+            </h1>
             
             <div id="girisFormu">
                 <p style="color: var(--text-muted); margin-bottom: 25px;">Kütüphanene hoş geldin.</p>
@@ -59,13 +70,15 @@
         </div>
     </div>
 
+    <!-- ANA UYGULAMA (KÜTÜPHANE) -->
     <div class="container" id="anaUygulama" style="display: none;">
         <header>
             <div>
-               <h1 style="color: var(--folder-color); display: flex; align-items: center; gap: 12px;">
-    <img src="logo.png" alt="Stuffd" style="width: 36px; height: 36px; object-fit: contain; shape-rendering: crispEdges;">
-    Stuffd <span class="beta-badge" style="background-color: var(--text-color); color: var(--bg-color);">BETA</span>
-</h1>
+                <!-- ANA SAYFA LOGOSU VE BAŞLIĞI -->
+                <h1 style="color: var(--folder-color); display: flex; align-items: center; gap: 12px;">
+                    <img src="logo.png?v=3" alt="Stuffd Logo" style="width: 36px; height: 36px; object-fit: contain; shape-rendering: crispEdges;">
+                    Stuffd <span class="beta-badge" style="background-color: var(--text-color); color: var(--bg-color);">BETA</span>
+                </h1>
                 <p>Kütüphanen, notların ve çok daha fazlası.</p>
             </div>
             <div class="header-buttons">
@@ -78,6 +91,7 @@
         <main id="kutuphaneGrid" class="grid-layout"></main>
     </div>
 
+    <!-- KLASÖR EKLEME PENCERESİ -->
     <div id="klasorModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatKlasorBtn">&times;</span>
@@ -95,6 +109,7 @@
         </div>
     </div>
 
+    <!-- KLASÖR DÜZENLEME PENCERESİ -->
     <div id="klasorDuzenleModal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
             <span class="kapat-btn" id="kapatDuzenleBtn">&times;</span>
@@ -112,6 +127,7 @@
         </div>
     </div>
 
+    <!-- FOTOĞRAF KESME (CROPPER) PENCERESİ -->
     <div id="cropperModal" class="modal" style="z-index: 1000;">
         <div class="modal-content" style="max-width: 500px;">
             <h2 class="title" style="margin-bottom: 15px;">Fotoğrafı Kırp</h2>
@@ -122,6 +138,7 @@
         </div>
     </div>
 
+    <!-- YENİ İÇERİK EKLEME PENCERESİ -->
     <div id="yeniIcerikModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatYeniBtn">&times;</span>
@@ -149,6 +166,7 @@
         </div>
     </div>
 
+    <!-- İÇERİK DETAY VE DÜZENLEME PENCERESİ -->
     <div id="detayModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatDetayBtn">&times;</span>
@@ -165,6 +183,7 @@
         </div>
     </div>
 
+    <!-- TAM EKRAN KİTAP (FLIPBOOK) MODU -->
     <div id="pdfKitapModal" class="modal" style="z-index: 1000; background: var(--bg-color);">
         <div class="modal-content" style="width: 100%; height: 100%; max-width: 100%; border-radius: 0; padding: 0; display: flex; flex-direction: column;">
             <div id="pdfHeaderArea" style="background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
@@ -182,6 +201,7 @@
         </div>
     </div>
 
-    <script type="module" src="app.js?v=11"></script>
+    <!-- JS DOSYASI BAĞLANTISI -->
+    <script type="module" src="app.js?v=12"></script>
 </body>
 </html>
