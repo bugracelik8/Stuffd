@@ -7,8 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
     <div id="authEkrani" class="auth-overlay">
@@ -85,6 +84,23 @@
         </div>
     </div>
 
+    <div id="klasorDuzenleModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="kapat-btn" id="kapatDuzenleBtn">&times;</span>
+            <div class="modal-header">
+                <h2 class="title" style="font-size: 20px; margin-bottom: 20px;">Klasörü Düzenle</h2>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="duzenleAdInput" class="link-input" placeholder="Yeni klasör adı...">
+                <div id="duzenleResimAlani" style="display: none; margin-bottom: 15px;">
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Yeni Kapak Fotoğrafı (İsteğe Bağlı)</label>
+                    <input type="file" id="duzenleResimInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;">
+                </div>
+                <button id="klasorGuncelleBtn" class="primary-btn" style="width: 100%; background-color: #ff9f0a;">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+
     <div id="cropperModal" class="modal" style="z-index: 1000;">
         <div class="modal-content" style="max-width: 500px;">
             <h2 class="title" style="margin-bottom: 15px;">Fotoğrafı Kırp</h2>
@@ -155,6 +171,6 @@
         </div>
     </div>
 
-    <script type="module" src="app.js?v=7"></script>
+    <script type="module" src="app.js?v=8"></script>
 </body>
 </html>
