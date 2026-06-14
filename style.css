@@ -31,25 +31,27 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .yol-elemani:hover { color: var(--folder-color); }
 .ayirici { color: var(--text-muted); }
 
-.grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+/* GÜNCELLEME: Kare Klasör Tasarımı */
+.grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
 
 .card { 
-    background-color: var(--card-bg); border-radius: 18px; padding: 30px 24px; 
+    background-color: var(--card-bg); border-radius: 18px; padding: 20px; 
     box-shadow: 0 4px 14px var(--card-shadow); transition: 0.2s; cursor: pointer; 
-    position: relative; display: flex; flex-direction: column; min-height: 110px;
-    overflow: hidden; 
+    position: relative; display: flex; flex-direction: column; 
+    aspect-ratio: 1 / 1; /* TAM KARE YAPAN KOD */
+    overflow: hidden; justify-content: center; align-items: center; text-align: center;
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px var(--card-hover-shadow); }
 
 .sil-btn { position: absolute; top: 12px; right: 12px; z-index: 10; background-color: var(--danger-color); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
 .card:hover .sil-btn { opacity: 1; } .sil-btn:hover { transform: scale(1.1); }
 
-.folder-icon { font-size: 32px; margin-bottom: 8px; position: relative; z-index: 2; }
-.tag { align-self: flex-start; background-color: var(--tag-bg); padding: 4px 10px; border-radius: 12px; font-size: 12px; margin-bottom: 12px; position: relative; z-index: 2; font-weight: bold; color: var(--text-color);}
-.title { font-size: 18px; font-weight: 600; margin: 0; position: relative; z-index: 2; }
+.folder-icon { font-size: 40px; margin-bottom: 12px; position: relative; z-index: 2; }
+.tag { position: absolute; top: 12px; left: 12px; background-color: var(--tag-bg); padding: 4px 10px; border-radius: 12px; font-size: 12px; z-index: 2; font-weight: bold; color: var(--text-color);}
+.title { font-size: 18px; font-weight: 600; margin: 0; position: relative; z-index: 2; width: 100%; word-wrap: break-word;}
 
 /* Modallar */
-.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
 .modal-content { background-color: var(--card-bg); border-radius: 20px; padding: 30px; width: 90%; max-width: 600px; position: relative; }
 .kapat-btn { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
 .modal-body h3 { margin-top: 20px; font-size: 14px; margin-bottom: 10px; }
@@ -69,17 +71,9 @@ textarea { width: 100%; height: 150px; background: var(--bg-color); color: var(-
 .auth-card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px var(--card-shadow); width: 100%; max-width: 350px; text-align: center; }
 .auth-link { font-size: 13px; color: var(--text-muted); margin-top: 15px; cursor: pointer; transition: 0.2s; }
 .auth-link:hover { color: var(--folder-color); }
-
 .mesaj-basari { background-color: rgba(0, 113, 227, 0.1); color: #0071e3; border: 1px solid #0071e3; }
 .mesaj-hata { background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid #ff3b30; }
 
-.sifre-kurallari { font-size: 11px; color: var(--text-muted); text-align: left; margin: 0 0 10px 5px; }
-.sifre-guc-kutusu { margin-bottom: 20px; text-align: left; }
-.guc-barlari { display: flex; gap: 4px; margin-bottom: 5px; }
-.bar { height: 4px; flex: 1; background-color: var(--border-color); border-radius: 2px; transition: background-color 0.3s ease; }
-.guc-metni { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-left: 5px; }
-
-/* Şifre Butonları */
 .password-wrapper { position: relative; width: 100%; margin-bottom: 15px; }
 .password-wrapper .link-input { margin-bottom: 0 !important; padding-right: 65px; }
 .toggle-password { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); user-select: none; z-index: 10; transition: color 0.2s ease; }
