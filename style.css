@@ -1,28 +1,42 @@
 :root {
-    --bg-color: #1d1d1f; --text-color: #f5f5f7; --text-muted: #a1a1a6;
-    --card-bg: #2d2d2f; --card-shadow: rgba(0,0,0,0.3); --card-hover-shadow: rgba(0,0,0,0.5);
-    --tag-bg: #3d3d40; --tag-text: #e8e8ed; --border-color: #3d3d40; --folder-color: #0071e3;
-    --danger-color: #ff3b30;
+    /* ANA RENKLER: LACİVERT VE TURUNCU (DARK MODE DEFAULT) */
+    --bg-color: #0B132B; 
+    --card-bg: #1C2541; 
+    --text-color: #F5F5F7; 
+    --text-muted: #8AA1B1;
+    --tag-bg: #3A506B; 
+    --border-color: #3A506B; 
+    --folder-color: #FF9F0A; 
+    --danger-color: #FF3B30;
+    --card-shadow: rgba(0,0,0,0.4); 
+    --card-hover-shadow: rgba(255, 159, 10, 0.2);
 }
 
 body.light-mode {
-    --bg-color: #f5f5f7; --text-color: #1d1d1f; --text-muted: #86868b;
-    --card-bg: #ffffff; --card-shadow: rgba(0,0,0,0.08); --card-hover-shadow: rgba(0,0,0,0.12);
-    --tag-bg: #f0f0f5; --tag-text: #494950; --border-color: #d2d2d7; --folder-color: #0071e3;
+    --bg-color: #F0F4F8; 
+    --card-bg: #FFFFFF;
+    --text-color: #0B132B; 
+    --text-muted: #5C6B7B;
+    --tag-bg: #D9E2EC; 
+    --border-color: #D9E2EC; 
+    --folder-color: #F97316; 
+    --card-shadow: rgba(11, 19, 43, 0.08); 
+    --card-hover-shadow: rgba(249, 115, 22, 0.15);
 }
 
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 20px; transition: background-color 0.3s, color 0.3s; }
 .container { max-width: 1000px; margin: 0 auto; }
 header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-h1 { margin: 0; font-size: 32px; font-weight: 700; display: flex; align-items: center; }
+h1 { margin: 0; font-size: 32px; font-weight: 800; display: flex; align-items: center; letter-spacing: -0.5px;}
 header p { color: var(--text-muted); margin: 5px 0 0 0; }
 .header-buttons { display: flex; gap: 10px; }
-.beta-badge { background-color: #ff9f0a; color: white; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 8px; vertical-align: middle; margin-left: 10px; letter-spacing: 1px; }
 
-button { border: none; padding: 10px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.beta-badge { background-color: var(--folder-color); color: white; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 8px; vertical-align: middle; margin-left: 10px; letter-spacing: 1px; }
+
+button { border: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
 button:active { transform: scale(0.95); }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
-.primary-btn { background-color: var(--folder-color); color: white; }
+.primary-btn { background-color: var(--folder-color); color: var(--bg-color); font-weight: 700; }
 .secondary-btn { background-color: var(--tag-bg); color: var(--text-color); }
 
 .breadcrumb { background-color: var(--card-bg); padding: 12px 20px; border-radius: 12px; margin-bottom: 30px; font-size: 14px; font-weight: 600; color: var(--text-muted); box-shadow: 0 2px 8px var(--card-shadow); display: flex; gap: 8px; }
@@ -35,40 +49,81 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     background-color: var(--card-bg); border-radius: 18px; padding: 20px; 
     box-shadow: 0 4px 14px var(--card-shadow); transition: 0.2s; cursor: pointer; 
     position: relative; display: flex; flex-direction: column; 
-    aspect-ratio: 1 / 1; overflow: hidden; justify-content: center; align-items: center; text-align: center;
+    aspect-ratio: 1 / 1; overflow: hidden; justify-content: center; align-items: center; text-align: center; border: 1px solid var(--border-color);
 }
-.card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px var(--card-hover-shadow); }
+.card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px var(--card-hover-shadow); border-color: var(--folder-color);}
 
-.sil-btn { position: absolute; top: 12px; right: 12px; z-index: 10; background-color: var(--danger-color); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
-.duzenle-btn { position: absolute; top: 12px; right: 48px; z-index: 10; background-color: #ff9f0a; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
+
+/* ==========================================================================
+   ÖZEL İKON ALANLARI (TASARIMLARINI BURAYA EKLEYECEKSİN)
+   ========================================================================== */
+
+/* 1. Klasör İkonu (Büyük) */
+.icon-folder { 
+    width: 64px; 
+    height: 64px; 
+    margin-bottom: 12px; 
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    position: relative; 
+    z-index: 2; 
+    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: klasor.png) */
+    background-image: url('klasor-ikonun.png'); 
+}
+
+/* 2. Düzenle (Kalem) İkonu */
+.duzenle-btn { 
+    position: absolute; top: 12px; right: 48px; z-index: 10; 
+    background-color: var(--tag-bg); border: none; border-radius: 50%; 
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; 
+    cursor: pointer; opacity: 0; transition: 0.2s; padding: 0;
+    background-size: 18px; background-repeat: no-repeat; background-position: center;
+    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: kalem.png) */
+    background-image: url('kalem-ikonun.png'); 
+}
+
+/* 3. Tema Değiştirme İkonu (Buton İçi Küçük İkon) */
+.ikon-tema {
+    display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;
+    background-size: contain; background-repeat: no-repeat;
+    /* TASARIMINI PROJE KLASÖRÜNE AT VE İSMİNİ AŞAĞIYA YAZ (örn: kristal.png) */
+    background-image: url('tema-ikonun.png');
+}
+
+/* Kapat/Sil İkonu Standart (X İşareti) */
+.sil-btn { position: absolute; top: 12px; right: 12px; z-index: 10; background-color: transparent; color: var(--danger-color); border: 1px solid var(--danger-color); border-radius: 50%; width: 32px; height: 32px; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: 0.2s; padding: 0; }
 .card:hover .sil-btn, .card:hover .duzenle-btn { opacity: 1; } 
-.sil-btn:hover, .duzenle-btn:hover { transform: scale(1.1); }
+.sil-btn:hover { background-color: var(--danger-color); color: white; transform: scale(1.1); }
+.duzenle-btn:hover { transform: scale(1.1); background-color: var(--folder-color); }
 
-.folder-icon { font-size: 40px; margin-bottom: 12px; position: relative; z-index: 2; }
+/* ========================================================================== */
+
+
 .tag { position: absolute; top: 12px; left: 12px; background-color: var(--tag-bg); padding: 4px 10px; border-radius: 12px; font-size: 12px; z-index: 2; font-weight: bold; color: var(--text-color);}
 .title { font-size: 18px; font-weight: 600; margin: 0; position: relative; z-index: 2; width: 100%; word-wrap: break-word;}
 
-.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
-.modal-content { background-color: var(--card-bg); border-radius: 20px; padding: 30px; width: 90%; max-width: 600px; position: relative; }
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(11, 19, 43, 0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+.modal-content { background-color: var(--card-bg); border-radius: 20px; padding: 30px; width: 90%; max-width: 600px; position: relative; border: 1px solid var(--border-color); }
 .kapat-btn { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
 .modal-body h3 { margin-top: 20px; font-size: 14px; margin-bottom: 10px; }
 
 .link-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 15px; box-sizing: border-box; font-size: 14px;}
+.link-input:focus { outline: 2px solid var(--folder-color); border-color: transparent;}
 textarea { width: 100%; height: 150px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; resize: vertical; margin-bottom: 15px; font-family: inherit; box-sizing: border-box;}
+textarea:focus { outline: 2px solid var(--folder-color); border-color: transparent;}
 
 .segment-control { display: flex; background: var(--tag-bg); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
 .segment-control input { display: none; }
 .segment-control label { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px; transition: 0.3s; }
-.segment-control input:checked + label { background: var(--card-bg); color: var(--text-color); box-shadow: 0 2px 5px var(--card-shadow); }
+.segment-control input:checked + label { background: var(--card-bg); color: var(--folder-color); box-shadow: 0 2px 5px var(--card-shadow); }
 .file-upload-box { border: 2px dashed var(--border-color); border-radius: 12px; padding: 30px; text-align: center; margin-bottom: 15px; }
 .file-upload-box input { width: 100%; color: var(--text-color); }
 
 .auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; align-items: center; justify-content: center; }
-.auth-card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px var(--card-shadow); width: 100%; max-width: 350px; text-align: center; }
+.auth-card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); width: 100%; max-width: 350px; text-align: center; border: 1px solid var(--border-color);}
 .auth-link { font-size: 13px; color: var(--text-muted); margin-top: 15px; cursor: pointer; transition: 0.2s; }
 .auth-link:hover { color: var(--folder-color); }
-.mesaj-basari { background-color: rgba(0, 113, 227, 0.1); color: #0071e3; border: 1px solid #0071e3; }
-.mesaj-hata { background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid #ff3b30; }
 
 .password-wrapper { position: relative; width: 100%; margin-bottom: 15px; }
 .password-wrapper .link-input { margin-bottom: 0 !important; padding-right: 65px; }
