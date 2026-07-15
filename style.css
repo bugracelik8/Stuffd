@@ -84,6 +84,7 @@ textarea:focus { outline: 2px solid var(--folder-color); border-color: transpare
 .auth-card { background: var(--card-bg); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); width: 100%; max-width: 350px; text-align: center; border: 1px solid var(--border-color);}
 .auth-link { font-size: 13px; color: var(--text-muted); margin-top: 15px; cursor: pointer; transition: 0.2s; }
 .auth-link:hover { color: var(--folder-color); }
+
 .password-wrapper { position: relative; width: 100%; margin-bottom: 15px; }
 .password-wrapper .link-input { margin-bottom: 0 !important; padding-right: 65px; }
 .toggle-password { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); user-select: none; z-index: 10; transition: color 0.2s ease; }
@@ -94,7 +95,6 @@ textarea:focus { outline: 2px solid var(--folder-color); border-color: transpare
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    /* Javascript ile yüzdeye göre güncellenecek */
     background: conic-gradient(var(--folder-color) 0%, var(--tag-bg) 0%);
     display: flex;
     align-items: center;
@@ -105,7 +105,7 @@ textarea:focus { outline: 2px solid var(--folder-color); border-color: transpare
 .progress-circle::before {
     content: "";
     position: absolute;
-    inset: 5px; /* İçteki çemberin kalınlığı */
+    inset: 5px;
     background-color: var(--card-bg);
     border-radius: 50%;
 }
