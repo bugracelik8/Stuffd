@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stuffd</title>
-    
     <link rel="shortcut icon" href="logo.png?v=3" type="image/png">
     <link rel="icon" href="logo.png?v=3" type="image/png">
     <link rel="apple-touch-icon" href="logo.png?v=3">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
-    <!-- KİMLİK DOĞRULAMA EKRANI -->
+    <!-- KİMLİK DOĞRULAMA -->
     <div id="authEkrani" class="auth-overlay">
         <div class="auth-card">
             <h1 style="color: var(--folder-color); display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px;">
@@ -31,28 +28,27 @@
                     <input type="password" id="girisSifre" class="link-input" placeholder="Şifre">
                     <span class="toggle-password" id="toggleGirisSifre">Göster</span>
                 </div>
-                
                 <div style="text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
                     <input type="checkbox" id="beniHatirla" checked style="accent-color: var(--folder-color); width: 16px; height: 16px;">
                     <label for="beniHatirla" style="font-size: 13px; color: var(--text-muted); cursor: pointer;">Oturumu açık tut</label>
                 </div>
-
                 <button id="girisBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px;">Giriş Yap</button>
                 <p class="auth-link" id="gitKayitOl">Hesabın yok mu? <b>Kayıt Ol</b></p>
                 <p class="auth-link" id="gitSifreSifirla">Şifreni mi unuttun?</p>
             </div>
 
             <div id="kayitFormu" style="display: none;">
-                <p style="color: var(--text-muted); margin-bottom: 25px;">Yeni bir başlangıç yap.</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">Yeni bir başlangıç yap.</p>
                 <input type="email" id="kayitEmail" class="link-input" placeholder="E-posta Adresi">
                 <div class="password-wrapper">
                     <input type="password" id="kayitSifre" class="link-input" placeholder="Şifre">
                     <span class="toggle-password" id="toggleKayitSifre">Göster</span>
                 </div>
-                <div class="password-wrapper">
+                <div class="password-wrapper" style="margin-bottom: 5px;">
                     <input type="password" id="kayitSifreTekrar" class="link-input" placeholder="Şifreyi Tekrar Girin">
                     <span class="toggle-password" id="toggleKayitSifreTekrar">Göster</span>
                 </div>
+                <p style="font-size: 11px; color: var(--text-muted); text-align: left; margin-bottom: 20px;">* Şifreniz en az 8 karakter uzunluğunda olmalı, 1 büyük harf ve 1 rakam içermelidir.</p>
                 <button id="kayitBtn" class="primary-btn" style="width: 100%; margin-bottom: 10px;">Hesap Oluştur</button>
                 <p class="auth-link" id="gitGirisYap">Zaten hesabın var mı? <b>Giriş Yap</b></p>
             </div>
@@ -66,7 +62,7 @@
         </div>
     </div>
 
-    <!-- ANA UYGULAMA (KÜTÜPHANE) -->
+    <!-- ANA UYGULAMA -->
     <div class="container" id="anaUygulama" style="display: none;">
         <header>
             <div>
@@ -78,7 +74,7 @@
             </div>
             <div class="header-buttons">
                 <button id="profilAcBtn" class="secondary-btn" style="display: flex; align-items: center; gap: 8px;">
-                    <img id="headerAvatar" src="" style="width: 20px; height: 20px; border-radius: 50%; display: none; object-fit: cover;">
+                    <img id="headerAvatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238AA1B1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;">
                     <span id="headerNick">Profilim</span>
                 </button>
                 <button id="temaBtn" class="secondary-btn">☀️ Açık Mod</button>
@@ -91,37 +87,39 @@
             <div class="breadcrumb" id="breadcrumb" style="margin-bottom: 0; flex: 1;"></div>
         </div>
         
+        <!-- Yükleniyor Ekranı (Senkronizasyon için) -->
+        <div id="yukleniyorUyari" style="text-align: center; color: var(--folder-color); font-weight: bold; padding: 40px; display: none;">Buluttan veriler getiriliyor...</div>
+        
         <main id="kutuphaneGrid" class="grid-layout"></main>
     </div>
 
-    <!-- PROFİL PENCERESİ -->
+    <!-- YENİ VE TEMİZ PROFİL MODALI -->
     <div id="profilModal" class="modal">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
             <span class="kapat-btn" id="kapatProfilBtn">&times;</span>
-            <h2 class="title" style="margin-bottom: 20px;">Profilim</h2>
+            <h2 class="title" style="margin-bottom: 25px;">Profil Ayarları</h2>
             
-            <div class="profile-avatar-wrapper" style="margin-bottom: 20px;">
-                <img id="profilAvatarOnizleme" src="" style="width: 80px; height: 80px; border-radius: 50%; background: var(--tag-bg); object-fit: cover; display: inline-block; margin-bottom: 10px;">
-                <input type="file" id="profilAvatarInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;">
-            </div>
+            <!-- Sadece Resmi Göster -->
+            <img id="profilAvatarOnizleme" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238AA1B1'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 2px solid var(--border-color); background-color: var(--bg-color);">
             
-            <input type="text" id="profilNickInput" class="link-input" placeholder="Kullanıcı Adı / Nickname">
+            <!-- Fotoğraf Değiştir Butonu -->
+            <input type="file" id="profilAvatarInput" accept="image/png, image/jpeg, image/webp" style="display: none;">
+            <button onclick="document.getElementById('profilAvatarInput').click()" class="secondary-btn" style="width: 100%; margin-bottom: 25px;">Fotoğrafı Değiştir</button>
             
-            <button id="profilKaydetBtn" class="primary-btn" style="width: 100%; margin-bottom: 15px;">Profili Kaydet</button>
+            <button id="profilKaydetBtn" class="primary-btn" style="width: 100%; margin-bottom: 15px;">Değişiklikleri Kaydet</button>
             <button id="cikisBtn" class="secondary-btn" style="width: 100%; background-color: transparent; border: 1px solid var(--danger-color); color: var(--danger-color);">Hesaptan Çıkış Yap</button>
         </div>
     </div>
 
-    <!-- DİĞER MODALLAR (Aynı Kalıyor) -->
+    <!-- DİĞER MODALLAR (Aynı) -->
     <div id="klasorModal" class="modal"><div class="modal-content" style="max-width: 400px;"><span class="kapat-btn" id="kapatKlasorBtn">&times;</span><div class="modal-header"><h2 id="klasorModalBaslik" class="title" style="font-size: 20px; margin-bottom: 20px;">Yeni Klasör</h2></div><div class="modal-body"><input type="text" id="klasorAdInput" class="link-input" placeholder="Klasör adı girin..."><div id="klasorResimAlani" style="display: none; margin-bottom: 15px;"><label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Kapak Fotoğrafı</label><input type="file" id="klasorResimInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;"></div><button id="klasorOlusturBtn" class="primary-btn" style="width: 100%;">Oluştur</button></div></div></div>
-    
     <div id="klasorDuzenleModal" class="modal"><div class="modal-content" style="max-width: 400px;"><span class="kapat-btn" id="kapatDuzenleBtn">&times;</span><div class="modal-header"><h2 class="title" style="font-size: 20px; margin-bottom: 20px;">Klasörü Düzenle</h2></div><div class="modal-body"><input type="text" id="duzenleAdInput" class="link-input" placeholder="Yeni klasör adı..."><div id="duzenleResimAlani" style="display: none; margin-bottom: 15px;"><label style="font-size: 12px; color: var(--text-muted); font-weight: bold; display: block; margin-bottom: 5px;">Yeni Kapak Fotoğrafı</label><input type="file" id="duzenleResimInput" class="link-input" accept="image/png, image/jpeg, image/webp" style="padding: 8px;"></div><button id="klasorGuncelleBtn" class="primary-btn" style="width: 100%;">Değişiklikleri Kaydet</button></div></div></div>
     
+    <!-- CROPPER (SADELEŞTİRİLDİ) -->
     <div id="cropperModal" class="modal" style="z-index: 1000;"><div class="modal-content" style="max-width: 500px;"><h2 class="title" style="margin-bottom: 15px;">Fotoğrafı Kırp</h2><div style="width: 100%; max-height: 400px; overflow: hidden; margin-bottom: 15px;"><img id="cropperImage" style="max-width: 100%;"></div><button id="cropUygulaBtn" class="primary-btn" style="width: 100%;">Kes ve Onayla</button></div></div>
     
     <div id="yeniIcerikModal" class="modal"><div class="modal-content"><span class="kapat-btn" id="kapatYeniBtn">&times;</span><div class="modal-header"><h2 class="title" style="font-size: 24px; margin-bottom: 20px;">Yeni Ne Ekliyoruz?</h2></div><div class="modal-body"><input type="text" id="yeniBaslik" class="link-input" placeholder="Başlık (Örn: Senaryo Dosyası)"><div class="segment-control"><input type="radio" id="turNot" name="icerikTuru" value="not" checked><label for="turNot">Yazılı Not</label><input type="radio" id="turPdf" name="icerikTuru" value="pdf"><label for="turPdf">PDF Yükle</label></div><div id="yaziliNotAlani"><textarea id="yeniNot" placeholder="Notlarını buraya yaz..."></textarea></div><div id="pdfYuklemeAlani" style="display: none;"><div class="file-upload-box"><input type="file" id="yeniPdfDosya" accept="application/pdf"></div></div><button id="olusturBtn" class="primary-btn" style="width: 100%;">Buluta Yükle ve Oluştur</button></div></div></div>
-
-    <!-- İÇERİK DETAY PENCERESİ (İlerleme Çemberi Eklendi) -->
+    
     <div id="detayModal" class="modal">
         <div class="modal-content">
             <span class="kapat-btn" id="kapatDetayBtn">&times;</span>
@@ -130,7 +128,6 @@
                     <span id="modalEtiket" class="tag">İçerik</span>
                     <h2 id="modalBaslik" class="title" style="font-size: 24px; margin-top: 30px;">Başlık</h2>
                 </div>
-                <!-- ÇEMBER ALANI -->
                 <div id="pdfİlerlemeAlani" style="display: none; text-align: center;">
                     <div id="ilerlemeCemberi" class="progress-circle">
                         <span id="ilerlemeYuzdeYazi">%0</span>
@@ -138,7 +135,6 @@
                     <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px; font-weight: bold;">OKUNMA ORANI</p>
                 </div>
             </div>
-            
             <div class="modal-body" style="margin-top: 20px;">
                 <button id="pdfAcBtn" class="primary-btn" style="display: none; width: 100%; margin-bottom: 20px;">Kaldığın Yerden Oku</button>
                 <h3 id="notBasligi">Notlarım</h3>
@@ -148,7 +144,6 @@
         </div>
     </div>
 
-    <!-- TAM EKRAN KİTAP (FLIPBOOK) MODU -->
     <div id="pdfKitapModal" class="modal" style="z-index: 1000; background: var(--bg-color);">
         <div class="modal-content" style="width: 100%; height: 100%; max-width: 100%; border-radius: 0; padding: 0; display: flex; flex-direction: column;">
             <div id="pdfHeaderArea" style="background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
@@ -165,7 +160,6 @@
             </div>
         </div>
     </div>
-
-    <script type="module" src="app.js?v=14"></script>
+    <script type="module" src="app.js?v=16"></script>
 </body>
 </html>
